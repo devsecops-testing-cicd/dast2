@@ -17,23 +17,23 @@ jobs:
 #    enableTags: false
 #    maxAlertsPerRule: 10
 - parameters:
-    type: spider
-    name: spider
     maxDuration: 5
     threadCount: 1
+  type: report
+  name: report
 #- type: passiveScan-wait  # Passive scan wait for the passive scanner to finish
 #  parameters:
 #    maxDuration: 5
 - parameters:
-    type: activeScan
-    name: activeScan
     threadPerHost: 1
     maxScanDurationInMins: 3
     delayInMs: 300
+  type: activeScan
+  name: activeScan
 - parameters: 
-    type: report
-    name: report
     reportTitle: ZAP Scan Report  
     reportDir: /zap/wrk/
     reportFile: dast.sarif.json
     template: sarif-json
+  type: report
+  name: report
