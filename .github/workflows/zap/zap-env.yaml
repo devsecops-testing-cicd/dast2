@@ -1,39 +1,67 @@
+---
+# A simple plan that performs a full scan against a URL in the ZAP_TARGET env var.
+# It uses the standard spider but only runs the AJAX spider if the app appears to be modern.
+# The 2 spider tests will fail as they do not find at least 100 URLs, 
+# but they do not fail the whole plan as they just report at INFO level.
 env:
   contexts:
-  - name: baseline
+  - name: "Example"
     urls:
-    - ${TARGET_URL}
-    #- https://public-firing-range.appspot.com
-    # includePaths:
-    # excludePaths:
-    # authentication:
-        # method:  # String, one of 'manual', 'http', 'form', 'json' or 'script'
+    - "${TARGET_RULE}"
+    includePaths: []
+    excludePaths: []
   parameters:
     failOnError: true
-    progressToStdout: false
+    failOnWarning: false
+    progressToStdout: true
+  vars: {}
 jobs:
-#- type: passiveScan-config
-#  parameters:
-#    enableTags: false
-#    maxAlertsPerRule: 10
 - parameters:
-    maxDuration: 5
-    threadCount: 1
-  type: report
-  name: report
-#- type: passiveScan-wait  # Passive scan wait for the passive scanner to finish
-#  parameters:
-#    maxDuration: 5
+    scanOnlyInScope: true
+    enableTags: false
+  rules: []
+  name: "passiveScan-config"
+  type: "passiveScan-config"
+- parameters: {}
+  name: "spider"
+  type: "spider"
+  tests:
+  - onFail: "INFO"
+    statistic: "automation.spider.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    type: "stats"
+    name: "At least 100 URLs found"
+- parameters: {}
+  name: "passiveScan-wait-pre-ajax"
+  type: "passiveScan-wait"
 - parameters:
-    threadPerHost: 1
-    maxScanDurationInMins: 3
-    delayInMs: 300
-  type: activeScan
-  name: activeScan
-- parameters: 
-    reportTitle: ZAP Scan Report  
-    reportDir: /zap/wrk/
-    reportFile: dast.sarif.json
-    template: sarif-json
-  type: report
-  name: report
+    maxDuration: 3
+    runOnlyIfModern: true
+  name: "spiderAjax"
+  type: "spiderAjax"
+  tests:
+  - onFail: "INFO"
+    statistic: "spiderAjax.urls.added"
+    site: ""
+    operator: ">="
+    value: 100
+    type: "stats"
+    name: "At least 100 URLs found"
+- parameters:
+  policyDefinition:
+    defaultStrength: "medium"
+    defaultThreshold: "medium"
+    rules: []
+  name: "activeScan"
+  type: "activeScan"
+- parameters: {}
+  name: "passiveScan-wait-pre-report"
+  type: "passiveScan-wait"
+- parameters:
+    template: "modern"
+    reportTitle: "ZAP Scanning Report"
+    reportDescription: ""
+  name: "report"
+  type: "report"
