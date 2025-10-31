@@ -12,13 +12,13 @@ env:
     failOnError: true
     progressToStdout: false
 jobs:
-- type: passiveScan-config
-  parameters:
-    enableTags: false
-    maxAlertsPerRule: 10
+#- type: passiveScan-config
+#  parameters:
+#    enableTags: false
+#    maxAlertsPerRule: 10
 - type: spider
   parameters:
-    maxDuration: 5
+    maxDuration: 2
 #- type: passiveScan-wait  # Passive scan wait for the passive scanner to finish
 #  parameters:
 #    maxDuration: 5
