@@ -38,8 +38,7 @@ jobs:
           path: dast.sarif.json
           retention-days: 30
 
-      # Code Scanning assumes that the locations are for files in the repository. This upload will file for non-file based locations.
-      #- name: 'Upload Sarif results into CodeQL'
-      #  uses: github/codeql-action/upload-sarif@v3
-      #  with:
-      #    sarif_file: dast.sarif.json
+      - name: 'Upload Sarif results into CodeQL'
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dast.sarif.json
