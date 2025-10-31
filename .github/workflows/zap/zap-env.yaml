@@ -26,6 +26,7 @@ jobs:
   parameters:
     threadPerHost: 1
     maxScanDurationInMins: 1
+    delayInMs: 100
 - type: report
   parameters: 
     reportTitle: ZAP Scan Report  
