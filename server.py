@@ -23,7 +23,7 @@ class LoggingHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
         self.wfile.write(b'Received POST request!')
 
 # Set the port for the server
-PORT = 8080
+PORT = 8081
 
 # Create a TCP server and bind it to the handler
 with socketserver.TCPServer(("", PORT), LoggingHTTPRequestHandler) as httpd:
