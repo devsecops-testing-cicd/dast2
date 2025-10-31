@@ -19,6 +19,15 @@ jobs:
     steps:
       # Fetch project source with GitHub Actions Checkout.
       - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+          
+      - name: Run server.py
+        run: |
+          python server.py
       
       - name: ZAP Scan using Automation Framework
         uses: zaproxy/action-af@v0.2.0
