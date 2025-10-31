@@ -8,6 +8,12 @@ env:
     # excludePaths:
     # authentication:
         # method:  # String, one of 'manual', 'http', 'form', 'json' or 'script'
+  configs:
+    network.ratelimit.rules.rule(0).description: Ratelimit
+    network.ratelimit.rules.rule(0).enabled: true
+    network.ratelimit.rules.rule(0).matchStr: true
+    network.ratelimit.rules.rule(0).regex: true
+    network.ratelimit.rules.rule(0).reqsPerSec: 1
   parameters:
     failOnError: true
     progressToStdout: false
