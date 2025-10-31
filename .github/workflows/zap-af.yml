@@ -27,7 +27,7 @@ jobs:
           
       - name: Run server.py
         run: |
-          python server.py
+          python server.py &
       
       - name: ZAP Scan using Automation Framework
         uses: zaproxy/action-af@v0.2.0
@@ -45,6 +45,13 @@ jobs:
         with:
           name: dast.sarif.json
           path: dast.sarif.json
+          retention-days: 30
+
+      - name: 'Save Requests Log'
+        uses: actions/upload-artifact@v4
+        with:
+          name: requests.txt
+          path: requests.txt
           retention-days: 30
 
 #      - name: 'Upload Sarif results into CodeQL'
