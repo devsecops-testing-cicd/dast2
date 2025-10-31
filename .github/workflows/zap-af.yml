@@ -1,0 +1,45 @@
+name: DAST Scan
+
+on:
+  # Scan on-demand through GitHub Actions interface:
+  workflow_dispatch: {}
+  # Schedule the CI job (this method uses cron syntax):
+  #schedule:
+    #- cron: '33 13 * * 4' # Sets schedule to scan every Wed at 13:33 UTC.
+
+permissions:
+  contents: read
+  actions: read
+  security-events: write
+
+jobs:
+  dast-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Fetch project source with GitHub Actions Checkout.
+      - uses: actions/checkout@v4
+      
+      - name: ZAP Scan using Automation Framework
+        uses: zaproxy/action-af@v0.2.0
+        env:
+          TARGET_URL: ${{ vars.SCAN_URL }}
+          #ZAP_AUTH_HEADER: Authorization
+          #ZAP_AUTH_HEADER_VALUE: xxx
+        with:
+          plan: '.github/workflows/zap/zap-env.yaml'
+          docker_env_vars: |
+            TARGET_URL
+
+      - name: 'Save Scan Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: dast.sarif.json
+          path: dast.sarif.json
+          retention-days: 30
+
+      # Code Scanning assumes that the locations are for files in the repository. This upload will file for non-file based locations.
+      #- name: 'Upload Sarif results into CodeQL'
+      #  uses: github/codeql-action/upload-sarif@v3
+      #  with:
+      #    sarif_file: dast.sarif.json
