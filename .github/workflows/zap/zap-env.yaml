@@ -18,7 +18,7 @@ jobs:
 #    maxAlertsPerRule: 10
 - type: spider
   parameters:
-    maxDuration: 2
+    maxDuration: 5
     threadCount: 1
 #- type: passiveScan-wait  # Passive scan wait for the passive scanner to finish
 #  parameters:
@@ -26,8 +26,8 @@ jobs:
 - type: activeScan
   parameters:
     threadPerHost: 1
-    maxScanDurationInMins: 1
-    delayInMs: 1500
+    maxScanDurationInMins: 3
+    delayInMs: 300
 - type: report
   parameters: 
     reportTitle: ZAP Scan Report  
