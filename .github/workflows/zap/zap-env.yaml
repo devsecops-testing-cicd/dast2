@@ -7,7 +7,7 @@ env:
   contexts:
   - name: "Example"
     urls:
-    - "${SCAN_URL}"
+    - ${TARGET_URL}
     includePaths: []
     excludePaths: []
   parameters:
