@@ -19,6 +19,7 @@ jobs:
 - type: spider
   parameters:
     maxDuration: 2
+    threadCount: 1
 #- type: passiveScan-wait  # Passive scan wait for the passive scanner to finish
 #  parameters:
 #    maxDuration: 5
